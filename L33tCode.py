@@ -109,3 +109,75 @@ def lengthOfLastWord(s):
     #return the length of the last word by popping it off and using len()
     return len(sentence.pop())
 lengthOfLastWord("Hello World")
+
+# Add two numbers that are stored 2 linked lists in reverse order
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+def addTwoNumbers(l1,l2):
+    dummyHead = ListNode(0)
+    curr = dummyHead
+    carry = 0 #variable for when the sum of 2 digits exceeds 10
+    #loop that will continue while there are still digits in either of the two
+    #lists or the carry is not 0
+    while l1!=None or l2!=None or carry!=0:
+        l1Val = l1.val if l1 else 0
+        l2Val = l2.val if l2 else 0
+        columnSum = l1Val+l2Val+carry
+        carry = columnSum/10 #if below 10 it will be 0
+        newNode = ListNode(columnSum%10)
+        curr.next = newNode
+        curr = newNode
+        l1 = l1.next if l1 else None
+        l2 = l2.next if l2 else None
+    return dummyHead.next
+l1 = ListNode(0)
+l2 = ListNode(0)
+addTwoNumbers(l1,l2)
+
+# You are given a large integer represented as an integer array digits,
+# where each digits[i] is the ith digit of the integer.
+# The digits are ordered from most significant to least significant in
+# left-to-right order. The large integer does not contain any leading 0's.
+# Increment the large integer by one and return the resulting array of digits.
+def plusOne(digits):
+    for i in range(len(digits)):
+        idx = len(digits)-1-i
+        #set all digits that are equal to 9 to 0
+        if digits[idx]==9:
+            digits[idx] = 0
+        #the right most digit that isn't a 9
+        else:
+            digits[idx]+=1
+            return digits
+    # we get here if all digits are 9
+    return [1]+digits
+plusOne([9,9,9])
+plusOne([5,4,3,9,9])
+
+# Given two binary strings a and b, return their sum as a binary string.
+def addBinary(a,b):
+    n = max(len(a),len(b))
+    a,b = a.zfill(n), b.zfill(n)
+
+    carry = 0 #this variable will decide what is appended to the answer
+    answer = []
+    for i in range(n-1, -1, -1):
+        if a[i] == '1':
+            carry += 1
+        if b[i] == '1':
+            carry += 1
+        if carry%2 == 1:
+            answer.append('1')
+        else:
+            answer.append('0')
+        carry //= 2
+    if carry == 1:
+        answer.append('1')
+    #answer needs to be reversed because everything was added to the end of the
+    #array when the addition is done from right to left
+    answer.reverse()
+
+    return ''.join(answer)
+addBinary('0111','1110')
