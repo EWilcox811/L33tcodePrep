@@ -56,3 +56,56 @@ def reverseWords(s):
             i+=1
     return sentence
 reverseWords("Let's take LeetCode contest")
+
+
+# Matching paranthesis
+def isValid(s):
+    stack = []
+    mapping = {')':'(',
+               ']':'[',
+               '}':'{'}
+    for char in s:
+        #If the character is a closing bracket
+        if char in mapping:
+            """
+            pop the topmost element from the stack if it isn't empty
+            otherwise assign a dummy value of '#' to the top_element variable
+            """
+            topStack = stack.pop() if stack else '#'
+            #If the mapping and the top_element don't match return false
+            if mapping[char] != topStack:
+                return False
+        else:
+            #add the opening bracket to the stack
+            stack.append(char)
+    return not stack
+isValid('()')
+
+#Integer to Roman Numerals
+def intToRoman(num):
+    #create a digit to roman numeral tuples list
+    dig_to_roman = [(1000,"M"),(900,"CM"),(500,"D"),(400,"CD"),(100,"C"),
+                    (90,"XC"),(50,"L"),(40,"XL"),(10,"X"),(9,"IX"),(5,"V"),
+                    (4,"IV"),(1,"I")]
+    #list that will hold roman letters as they're added
+    roman_digits = []
+
+    for value, symbol in dig_to_roman:
+        #break the loop if we have already found the highest integer
+        if num == 0:
+            break
+        count, num = divmod(num,value)
+        #append the right number of symbols to roman_digits
+        roman_digits.append(symbol*count)
+    #once loop is broken join the roman numerals into one string and return it
+    return "".join(roman_digits)
+intToRoman(25)
+intToRoman(3888)
+
+#Length of the last word in a sentence
+def lengthOfLastWord(s):
+    #split the incoming sentence into a list of words
+    sentence = s.split()
+    #return the length of the last word by popping it off and using len()
+    return len(sentence.pop())
+lengthOfLastWord("Hello World")
